@@ -1,58 +1,76 @@
-#include<stdio.h>
-#include<conio.h>
-#include<ctype.h>
-#include<math.h>
-#include<string.h>
-void main()
-{
-int a,b,i,j,t,x,n,k=0,flag=0,prime[100];
-char m[20],pp[20];
-float p[20],c[20];
-double e,d;
-clrscr();
-for(i=0;i<50;i++)
-{
-flag=0;
-for(j=2;j<i/2;j++)
-if(i%j==0)
-{
-flag=1;
-break;
+#include <stdio.h>
+#include <string.h>
+
+int isPrime(int num) {
+    if (num < 2)
+        return 0;
+
+    for (int i = 2; i <= num / 2; i++) {
+        if (num % i == 0)
+            return 0;
+    }
+
+    return 1;
 }
-if(flag==0)
-prime[k++]=i;
+
+double calculateExponentiation(int base, int exponent) {
+    double result = 1.0;
+
+    for (int i = 0; i < exponent; i++) {
+        result *= base;
+    }
+
+    return result;
 }
-a=prime[k-1];
-b=prime[k-2];
-n=a*b;
-t=(a-1)*(b-1);
-e=(double)prime[2];
-d=1/(float)e;
-printf("\nKey of encryption is:%lf\n",d);
-printf("\nEnter plain the text:");
-scanf("%s",&m);
-x=strlen(m);
-printf("\nDecryption status From Source to Destination:\n");
-printf("\nSource\t->----------------------------------<-destination\n");
-printf("\nChar\tnumeric\tcipher\t\tnumeric\t\tchar \n");
-printf("\n***********************************************************
-\n");
-printf("\n");
-for(i=0;i<x;i++)
-{
-printf("%c",m[i]);
-printf("\t%d",m[i]-97);
-c[i]=pow(m[i]-97,(float)e);
-c[i]=fmod(c[i],(float)n);
-printf("\t%f",c[i]);
-p[i]=pow(c[i],(float)d);
-p[i]=fmod(p[i],(float)n);
-printf("\t%f",p[i]);
-pp[i]=p[i]+97;
-printf("\t%c\n",pp[i]);
-printf("\n***********************************************************
-\n");
-printf("\n");
+
+int calculateModulo(int dividend, int divisor) {
+    while (dividend >= divisor) {
+        dividend -= divisor;
+    }
+
+    return dividend;
 }
-getch();
+
+void main() {
+    int a, b, i, j, t, x, n, k = 0, flag = 0, prime[100];
+    char m[20], pp[20];
+    double e, d;
+    float p[20], c[20];
+
+    for (i = 0; i < 100; i++) {
+        if (isPrime(i))
+            prime[k++] = i;
+    }
+
+    a = prime[k - 1];
+    b = prime[k - 2];
+    n = a * b;
+    t = (a - 1) * (b - 1);
+    e = (double)prime[2];
+    d = 1 / e;
+
+    printf("\nKey of encryption is: %lf\n", d);
+    printf("\nEnter the plaintext: ");
+    scanf("%s", m);
+    x = strlen(m);
+
+    printf("\nDecryption status from Source to Destination:\n");
+    printf("\nSource\t->----------------------------------<-destination\n");
+    printf("\nChar\tnumeric\tcipher\t\tnumeric\t\tchar \n");
+    printf("***********************************************************\n");
+
+    for (i = 0; i < x; i++) {
+        printf("%c\t%d", m[i], m[i] - 97);
+
+        c[i] = calculateModulo(calculateExponentiation(m[i] - 97, e), n);
+        printf("\t%f", c[i]);
+
+        p[i] = calculateModulo(calculateExponentiation(c[i], d), n);
+        printf("\t%f", p[i]);
+
+        pp[i] = p[i] + 97;
+        printf("\t%c\n", pp[i]);
+
+        printf("***********************************************************\n");
+    }
 }

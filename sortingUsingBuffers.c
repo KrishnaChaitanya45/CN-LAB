@@ -1,45 +1,43 @@
-#include<stdio.h>
-#include<conio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX_NODES 5
 struct frame{
-int fslno;
-char finfo[20];
+    int fslno;
+    char finfo[50];
 };
-struct frame arr[10];
-int n;
-void sort()
-{
-int i,j,ex;
-struct frame temp;
-for(i=0;i<n;i++)
-{
-ex=0;
-for(j=0;j<n-i-1;j++)
-if(arr[j].fslno>arr[j+1].fslno)
-{
-temp=arr[j];
-arr[j]=arr[j+1];
-arr[j+1]=temp;
-ex++;
+void sortFrames(struct frame* arr, int n){
+    for(int i=0; i<n; i++){
+        for(int j=0; j<n; j++){
+            if(arr[j].fslno > arr[j+1].fslno){
+                struct frame temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
+            }
+        }
+    }
 }
-if(ex==0) break;
-}
-}
-void main()
-{
-int i;
-clrscr();
-printf("\n Enter the number of frames \n");
-scanf("%d",&n);
-for(i=0;i<n;i++)
-{ arr[i].fslno=random(50);
-printf("\n Enter the frame contents for sequence number
-%d\n",arr[i].fslno);
-scanf("%s",arr[i].finfo);
-}
-sort();
-printf("\n The frames in sequence \n");
-for(i=0;i<n;i++)
-printf("\n %d\t%s \n",arr[i].fslno,arr[i].finfo);
-getch();
+
+void main(){
+      int n;
+
+    printf("Enter the number of frames: ");
+    scanf("%d", &n);
+
+    struct frame* arr = (struct frame*)malloc(n * sizeof(struct frame));
+
+    for (int i = 0; i < n; i++) {
+        arr[i].fslno = rand() % 50;
+        printf("Enter the frame contents for sequence number %d: ", arr[i].fslno);
+        scanf("%s", arr[i].finfo);
+    }
+
+    sortFrames(arr, n);
+
+    printf("\nThe frames in sequence:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d\t%s\n", arr[i].fslno, arr[i].finfo);
+    }
+
+    free(arr);
+
 }

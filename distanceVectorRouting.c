@@ -1,5 +1,4 @@
 #include<stdio.h>
-#include<conio.h>
 struct node
 {
 unsigned dist[20];
@@ -9,7 +8,6 @@ int main()
 {
 int dmat[20][20];
 int n,i,j,k,count=0;
-clrscr();
 printf("\nEnter the number of nodes : ");
 scanf("%d",&n);
 printf("Enter the cost matrix :\n");
